@@ -46,8 +46,11 @@ Deploy the trained model for real-time or batch movement recognition.
 Integrate predictions into broader applications like fitness tracking or sports analytics.
 
 
+![Diagram methodology](./data/crisp.png)
 
+### **Flowchart**
 
+![Diagram methodology](./data/flujo.png)
 #### **Results**
 - **Model Performance:**
   - The Random Forest classifier achieved an accuracy of approximately ??% on the test set.
