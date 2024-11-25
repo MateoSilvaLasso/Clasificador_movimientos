@@ -50,14 +50,14 @@ Integrate predictions into broader applications like fitness tracking or sports 
 
 ### **Flowchart**
 
-![Diagram methodology](./data/flujo.png)
+![Diagram flowchart](./data/flujo.png)
 #### **Results**
 - **Model Performance:**
   - The Random Forest classifier achieved an accuracy of approximately ??% on the test set.
 
 - **Metrics:**
   - Precision, recall, and F1 scores were calculated for each activity class.
-
+  ![Diagram methodology](./data/Metricas.png)
 ####  **Results Analysis**
 - The model generalized well to unseen test data, indicating robust feature extraction and preprocessing steps.
 - Minor overfitting was observed due to the limited diversity of training data.
