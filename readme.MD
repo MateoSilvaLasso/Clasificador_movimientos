@@ -32,6 +32,10 @@ Engineer features: joint angles, velocities, and other derived metrics.
 3. **Model Training**
   - A Random Forest Classifier was chosen for its robustness, interpretability, and ability to handle complex, nonlinear relationships in the data. This model was particularly suited to the diverse and high-dimensional pose landmark features extracted during preprocessing.
 
+  - Support Vector Machines (SVM) were utilized due to their effectiveness in high-dimensional spaces and their ability to model complex decision boundaries with kernel functions, providing a complementary approach to the Random Forest model.
+
+  - XGBoost, a gradient boosting algorithm, was also employed for its superior performance in structured data. Its ability to          handle missing data, robustness to overfitting, and computational efficiency made it a strong candidate for this task.
+
   - The dataset was split into training and testing sets, with 80% of the data used for training and 20% reserved for testing. This split ensured an unbiased evaluation of the model's performance on unseen data.
 
   - Hyperparameter Tuning: A comprehensive hyperparameter optimization was performed using GridSearchCV
