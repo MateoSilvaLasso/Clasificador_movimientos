@@ -53,7 +53,7 @@ Integrate predictions into broader applications like fitness tracking or sports 
 ![Diagram flowchart](./data/flujo.png)
 #### **Results**
 - **Model Performance:**
-  - The Random Forest classifier achieved an accuracy of approximately ??% on the test set.
+  The Random Forest, XGBoost, and SVM (with SVC) classifiers were used to evaluate the model's performance on the test set. Among these, the SVM (with SVC) achieved the best accuracy of approximately 0.89% on the test set, outperforming the other models.
 
 - **Metrics:**
   - Precision, recall, and F1 scores were calculated for each activity class.

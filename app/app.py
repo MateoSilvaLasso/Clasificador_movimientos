@@ -12,7 +12,7 @@ import streamlit as st
 
 modelo = joblib.load("models/modelo_clasificacion_actividades.pkl")
 
-# Configuración del detector de MediaPipe
+
 BaseOptions = mp.tasks.BaseOptions
 PoseLandmarker = mp.tasks.vision.PoseLandmarker
 PoseLandmarkerOptions = mp.tasks.vision.PoseLandmarkerOptions
@@ -65,10 +65,10 @@ def extract_landmarks_to_dataframe(detection_result):
         for landmark in pose_landmark:
             landmarks.append([landmark.x, landmark.y, landmark.z, landmark.visibility])
 
-    # Convertir la lista a un DataFrame de pandas
+   
     df_landmarks = pd.DataFrame(landmarks, columns=['x', 'y', 'z', 'visibility'])
 
-    # Agregar una columna de índice para los landmarks
+    
     df_landmarks['landmark_index'] = df_landmarks.index
     return df_landmarks
 
@@ -120,13 +120,13 @@ def generar_caracteristicas(df):
     return caracteristicas
 
 
-# Configuración de la página
+
 st.set_page_config(
     page_title="Sistema de Detección de Poses",
     layout="wide"
 )
 
-# Estilo personalizado
+
 st.markdown("""
     <style>
     .stButton>button {
@@ -152,14 +152,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Título principal
+
 st.title("🤸 Sistema de Detección de Poses")
 
-# Sidebar
+
 with st.sidebar:
     st.header("⚙️ Configuración")
     
-    # Cargar modelo
+    
     model_path = st.text_input(
         "Ruta del modelo pose_landmarker_heavy.task",
         value="posemodels/pose_landmarker_heavy.task"
@@ -167,21 +167,21 @@ with st.sidebar:
     
     
 
-# Inicialización del estado
+
 if 'running' not in st.session_state:
     st.session_state.running = False
 
-# Layout principal
+
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    # Placeholder para el video
+    
     video_placeholder = st.empty()
 
 with col2:
     st.subheader("🎮 Controles")
     
-    # Botones de control
+    
     if not st.session_state.running:
         if st.button("▶️ Iniciar Sistema"):
             st.session_state.running = True
@@ -191,21 +191,21 @@ with col2:
             st.session_state.running = False
             st.rerun()
     
-    # Área de predicción
+    
     st.markdown("### 🎯 Predicción Actual")
     prediction_placeholder = st.empty()
 
-# Lógica principal
+
 if st.session_state.running:
     try:
-        # Inicializar el detector
+        
         base_options = p.BaseOptions(model_asset_path=model_path)
         options = vision.PoseLandmarkerOptions(
             base_options=base_options,
             output_segmentation_masks=True)
         detector = vision.PoseLandmarker.create_from_options(options)
 
-        # Iniciar captura
+        
         cap = cv2.VideoCapture(0)
         
         while st.session_state.running:
@@ -214,12 +214,12 @@ if st.session_state.running:
                 st.error("Error al acceder a la cámara")
                 break
 
-            # Procesamiento de la imagen
+            
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
             detection_result = detector.detect(mp_image)
 
-            # Dibujar landmarks
+            
             if detection_result.pose_landmarks:
                 for pose_landmark in detection_result.pose_landmarks:
                     for point in pose_landmark:
@@ -227,7 +227,7 @@ if st.session_state.running:
                         y = int(point.y * frame.shape[0])
                         cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
 
-                # Procesar landmarks y hacer predicción
+                
                 df_landmarks = extract_landmarks_to_dataframe(detection_result)
                 df_landmarks = normalizar_coordenadas(df_landmarks)
                 df_landmarks = filtrar_datos(df_landmarks)
@@ -238,7 +238,7 @@ if st.session_state.running:
                 caracteristicas = imputer.fit_transform([caracteristicas])
                 prediccion = modelo.predict(caracteristicas)[0]
 
-                # Mostrar predicción
+               
                 with prediction_placeholder.container():
                     st.markdown(f"""
                     <div class="prediction-box">
@@ -246,7 +246,7 @@ if st.session_state.running:
                     </div>
                     """, unsafe_allow_html=True)
 
-            # Mostrar frame
+            
             video_placeholder.image(frame, channels="BGR", use_column_width=True)
 
         cap.release()
@@ -256,6 +256,6 @@ if st.session_state.running:
         st.session_state.running = False
 
 else:
-    # Mensaje cuando el sistema está detenido
+    
     with video_placeholder:
         st.info("Sistema detenido. Presiona 'Iniciar Sistema' para comenzar.")
